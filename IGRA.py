@@ -18,6 +18,8 @@ if __name__ == "__main__":
     random.shuffle(koloda)  #перемешивание наименований карт из списка
     print(koloda)
 
+
+
     app = QApplication([])
 
     window = QMainWindow()
