@@ -37,7 +37,11 @@ if __name__ == "__main__":
     nabor_kart.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(nabor_kart)
 
-
+    ostanovka_nabora = QPushButton()
+    ostanovka_nabora.setFixedSize(20,20)
+    ostanovka_nabora.move(250,700)
+    ostanovka_nabora.setStyleSheet("background-color:#48D100")
+    window.layout().addWidget(ostanovka_nabora)
 
 
 
