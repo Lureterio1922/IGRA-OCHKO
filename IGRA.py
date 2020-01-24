@@ -3,6 +3,17 @@ import random
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLayout
 
+def startovaya_razdacha(koloda):
+
+    print(koloda[0])
+    print(koloda[1])
+    print(koloda[2])
+    print(koloda[3])
+
+
+
+
+
 
 def read_file():
     file = open("spisok_kart", "r")
@@ -18,6 +29,7 @@ if __name__ == "__main__":
 
     random.shuffle(koloda)  # перемешивание наименований карт из списка
     print(koloda)
+    startovaya_razdacha(koloda)
 
     app = QApplication([])
 
