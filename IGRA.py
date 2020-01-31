@@ -3,12 +3,59 @@ import random
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLayout
 
-def startovaya_razdacha(koloda):
+def startovaya_razdacha(koloda,window):
 
     print(koloda[0])
     print(koloda[1])
     print(koloda[2])
     print(koloda[3])
+
+    karta1=QLabel()
+    karta1.setFixedSize(50, 90)
+    karta1.move(300,600)
+    pixmap = getPixmap(koloda[0])
+    karta1.setPixmap(pixmap)
+    window.layout().addWidget(karta1)
+
+    karta2=QLabel()
+    karta2.setFixedSize(50, 90)
+    karta2.move(360,600)
+    pixmap = getPixmap(koloda[1])
+    karta2.setPixmap(pixmap)
+    window.layout().addWidget(karta2)
+
+    karta3=QLabel()
+    karta3.setFixedSize(50, 90)
+    karta3.move(300,100)
+    pixmap = getPixmap(koloda[2])
+    karta3.setPixmap(pixmap)
+    window.layout().addWidget(karta3)
+
+    karta4=QLabel()
+    karta4.setFixedSize(50, 90)
+    karta4.move(360,100)
+    pixmap = QPixmap('1399413.jpg')
+    karta4.setPixmap(pixmap)
+    window.layout().addWidget(karta4)
+
+
+
+
+def getPixmap(karta):
+
+
+    result=karta.replace(' ','_').replace('черви','chervi.png')
+    print(result)
+    # result="2_chervi.png"
+    return QPixmap(result)
+
+
+
+
+
+
+
+
 
 
 
@@ -24,23 +71,28 @@ def read_file():
 
 
 if __name__ == "__main__":
-    data = read_file()
-    koloda = data.split("\n")  # строка из файла с картами разбивается на раздельный список
-
-    random.shuffle(koloda)  # перемешивание наименований карт из списка
-    print(koloda)
-    startovaya_razdacha(koloda)
-
-    app = QApplication([])
+    app= QApplication([])
 
     window = QMainWindow()
     window.setFixedSize(800, 800)
+
+    data = read_file()
+    koloda = data.split("\n")  # строка из файла с картами разбивается на раздельный список
+
 
     stol = QLabel()
     stol.setFixedSize(600, 600)
     stol.move(100, 100)
     stol.setStyleSheet("background-color:#48D1CC")
     window.layout().addWidget(stol)
+
+    random.shuffle(koloda)  # перемешивание наименований карт из списка
+    print(koloda)
+    startovaya_razdacha(koloda,window)
+
+
+
+
 
     nabor_kart = QPushButton()
     nabor_kart.setText('Взять')
