@@ -1,7 +1,26 @@
 import random
 
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLayout
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton
+x = 420
+
+def vzyat(koloda):
+    global x
+
+    karta5 = QLabel()
+    karta5.setFixedSize(50,90)
+    karta5.move(x,600)
+    pixmap= getPixmap(koloda[0])
+    karta5.setPixmap(pixmap)
+    window.layout().addWidget(karta5)
+
+    koloda.pop(0)
+
+    x = x+60
+
+
+
+
 
 def startovaya_razdacha(koloda,window):
 
@@ -16,20 +35,23 @@ def startovaya_razdacha(koloda,window):
     pixmap = getPixmap(koloda[0])
     karta1.setPixmap(pixmap)
     window.layout().addWidget(karta1)
+    koloda.pop(0)
 
     karta2=QLabel()
     karta2.setFixedSize(50, 90)
     karta2.move(360,600)
-    pixmap = getPixmap(koloda[1])
+    pixmap = getPixmap(koloda[0])
     karta2.setPixmap(pixmap)
     window.layout().addWidget(karta2)
+    koloda.pop(0)
 
     karta3=QLabel()
     karta3.setFixedSize(50, 90)
     karta3.move(300,100)
-    pixmap = getPixmap(koloda[2])
+    pixmap = getPixmap(koloda[0])
     karta3.setPixmap(pixmap)
     window.layout().addWidget(karta3)
+    koloda.pop(0)
 
     karta4=QLabel()
     karta4.setFixedSize(50, 90)
@@ -37,6 +59,7 @@ def startovaya_razdacha(koloda,window):
     pixmap = QPixmap('1399413.jpg')
     karta4.setPixmap(pixmap)
     window.layout().addWidget(karta4)
+    koloda.pop(0)
 
 
 
@@ -52,6 +75,9 @@ def getPixmap(karta):
 
 
 
+# def vzyatie_karty(koloda):
+#     koloda[0]
+    
 
 
 
@@ -100,6 +126,8 @@ if __name__ == "__main__":
     nabor_kart.move(200, 700)
     nabor_kart.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(nabor_kart)
+    nabor_kart.clicked.connect(lambda: vzyat(koloda))
+
 
     ostanovka_nabora = QPushButton()
     ostanovka_nabora.setText('Стоп')
@@ -111,7 +139,6 @@ if __name__ == "__main__":
     okoshko_dlya_stavok = QPushButton()
     okoshko_dlya_stavok.setText('Ставка')
     okoshko_dlya_stavok.setFixedSize(50, 20)
-    okoshko_dlya_stavok.move(300, 700)
     okoshko_dlya_stavok.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(okoshko_dlya_stavok)
 
