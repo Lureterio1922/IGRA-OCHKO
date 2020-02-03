@@ -3,7 +3,7 @@ import random
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton
 x = 420
-
+karta4=None
 def vzyat(koloda):
     global x
 
@@ -18,6 +18,11 @@ def vzyat(koloda):
 
     x = x+60
 
+def ostanovka():
+    global karta4
+    global name_karta
+    pixmap=getPixmap(name_karta)
+    karta4.setPixmap(pixmap)
 
 
 
@@ -53,6 +58,9 @@ def startovaya_razdacha(koloda,window):
     window.layout().addWidget(karta3)
     koloda.pop(0)
 
+    global karta4
+    global name_karta
+    name_karta = koloda[0]
     karta4=QLabel()
     karta4.setFixedSize(50, 90)
     karta4.move(360,100)
@@ -135,6 +143,7 @@ if __name__ == "__main__":
     ostanovka_nabora.move(250, 700)
     ostanovka_nabora.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(ostanovka_nabora)
+    ostanovka_nabora.clicked.connect(lambda: ostanovka())
 
     okoshko_dlya_stavok = QPushButton()
     okoshko_dlya_stavok.setText('Ставка')
