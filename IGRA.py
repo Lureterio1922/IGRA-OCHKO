@@ -1,28 +1,46 @@
 import random
 
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLineEdit
+
 x = 420
 karta4=None
+khod = "Мой ход"
+balansik = "Открытый баланс"
+stavochka = "Открытая ставочка"
 def vzyat(koloda):
     global x
+    if khod=="Мой ход":
+        karta5 = QLabel()
+        karta5.setFixedSize(50,90)
+        karta5.move(x,600)
+        pixmap= getPixmap(koloda[0])
+        karta5.setPixmap(pixmap)
+        window.layout().addWidget(karta5)
+        koloda.pop(0)
 
-    karta5 = QLabel()
-    karta5.setFixedSize(50,90)
-    karta5.move(x,600)
-    pixmap= getPixmap(koloda[0])
-    karta5.setPixmap(pixmap)
-    window.layout().addWidget(karta5)
-
-    koloda.pop(0)
 
     x = x+60
 
 def ostanovka():
+    global khod
     global karta4
     global name_karta
     pixmap=getPixmap(name_karta)
     karta4.setPixmap(pixmap)
+    khod = "Чужой ход"
+
+def balans():
+    global balansik
+    if balansik == "Открытый баланс":
+        balans_igroka.hide()
+        balansik = "Закртый баланс"
+    else:
+        balans_igroka.show()
+        balansik = "Открытый баланс"
+
+
+
 
 
 
@@ -103,6 +121,18 @@ def read_file():
 
     return data
 
+def stavka():
+    global stavochka
+    print("stavka")
+    balans()
+    if stavochka=="Открытая ставочка":
+        stavka_igroka.hide()
+        stavochka = "Закрытая ставочка"
+    else:
+        stavka_igroka.show()
+        stavochka = "Открытая ставочка"
+
+
 
 if __name__ == "__main__":
     app= QApplication([])
@@ -124,7 +154,20 @@ if __name__ == "__main__":
     print(koloda)
     startovaya_razdacha(koloda,window)
 
+    balans_igroka=QLabel()
+    balans_igroka.setText("                     100$")
+    balans_igroka.move(300,300)
+    balans_igroka.setFixedSize(200,100)
+    balans_igroka.setStyleSheet("background-color:#DCDCDC")
+    window.layout().addWidget(balans_igroka)
 
+
+    stavka_igroka = QLineEdit()
+    stavka_igroka.move(360,410)
+    stavka_igroka.setFixedSize(80,50)
+    stavka_igroka.setStyleSheet("background-color:#FAE7B5")
+    window.layout().addWidget(stavka_igroka)
+    stavka_igroka.returnPressed.connect(lambda: stavka())
 
 
 
@@ -148,6 +191,7 @@ if __name__ == "__main__":
     okoshko_dlya_stavok = QPushButton()
     okoshko_dlya_stavok.setText('Ставка')
     okoshko_dlya_stavok.setFixedSize(50, 20)
+    okoshko_dlya_stavok.move(320, 700)
     okoshko_dlya_stavok.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(okoshko_dlya_stavok)
 
@@ -157,6 +201,8 @@ if __name__ == "__main__":
     okoshko_balansa.move(380, 700)
     okoshko_balansa.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(okoshko_balansa)
+    okoshko_balansa.clicked.connect(lambda :balans())
+
 
     rubashka_kart = QLabel()
     rubashka_kart.setFixedSize(50, 90)
