@@ -8,6 +8,8 @@ karta4=None
 khod = "Мой ход"
 balansik = "Открытый баланс"
 stavochka = "Открытая ставочка"
+karty_dilera = []
+x1 = 420
 def vzyat(koloda):
     global x
     if khod=="Мой ход":
@@ -19,7 +21,6 @@ def vzyat(koloda):
         window.layout().addWidget(karta5)
         koloda.pop(0)
 
-
     x = x+60
 
 def ostanovka():
@@ -29,6 +30,18 @@ def ostanovka():
     pixmap=getPixmap(name_karta)
     karta4.setPixmap(pixmap)
     khod = "Чужой ход"
+    global x1
+
+    if khod =="Чужой ход":
+        karta6 = QLabel()
+        karta6.setFixedSize(50,90)
+        karta6.move(x1,100)
+        pixmap= getPixmap(koloda[0])
+        karta6.setPixmap(pixmap)
+        window.layout().addWidget(karta6)
+        koloda.pop(0)
+    x1 = x1+60
+
 
 def balans():
     global balansik
@@ -74,6 +87,7 @@ def startovaya_razdacha(koloda,window):
     pixmap = getPixmap(koloda[0])
     karta3.setPixmap(pixmap)
     window.layout().addWidget(karta3)
+    karty_dilera.append(koloda[0])
     koloda.pop(0)
 
     global karta4
@@ -85,7 +99,9 @@ def startovaya_razdacha(koloda,window):
     pixmap = QPixmap('1399413.jpg')
     karta4.setPixmap(pixmap)
     window.layout().addWidget(karta4)
+    karty_dilera.append(koloda[0])
     koloda.pop(0)
+
 
 
 
@@ -93,10 +109,12 @@ def startovaya_razdacha(koloda,window):
 def getPixmap(karta):
 
 
-    result=karta.replace(' ','_').replace('черви','chervi.png')
-    print(result)
-    # result="2_chervi.png"
+    result=karta.replace(' ','_').replace('черви','chervi.png').replace('буби','bubi.png').replace('крести','kresti.png').replace ('трефы','trefy.png')
+
+
     return QPixmap(result)
+
+
 
 
 
@@ -133,6 +151,58 @@ def stavka():
         stavochka = "Открытая ставочка"
 
 
+def podschet(spisok_kart):
+
+    sum = 0
+
+    for karta in spisok_kart:
+        sum += kart_value(karta)
+
+def kart_value(karta):
+
+    if "2" in karta:
+        return 2
+
+    if "3" in karta:
+        return 3
+
+    if "4" in karta:
+        return 4
+
+    if "5" in karta:
+        return 5
+
+    if "6" in karta:
+        return 6
+
+    if "7" in karta:
+        return 7
+
+    if "8" in karta:
+        return 8
+
+    if "9" in karta:
+        return 9
+
+    if "10" in karta:
+        return 10
+
+    if "J" in karta:
+        return 2
+
+    if "Q" in karta:
+        return 3
+
+    if "K" in karta:
+        return 4
+
+    if "A" in karta:
+        return 11
+
+
+
+
+
 
 if __name__ == "__main__":
     app= QApplication([])
@@ -153,6 +223,7 @@ if __name__ == "__main__":
     random.shuffle(koloda)  # перемешивание наименований карт из списка
     print(koloda)
     startovaya_razdacha(koloda,window)
+    print(karty_dilera)
 
     balans_igroka=QLabel()
     balans_igroka.setText("                     100$")
