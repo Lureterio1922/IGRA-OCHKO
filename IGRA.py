@@ -35,8 +35,13 @@ def dop_karty():
         pixmap= getPixmap(koloda[0])
         karta6.setPixmap(pixmap)
         window.layout().addWidget(karta6)
+        karty_dilera.append(koloda[0])
         koloda.pop(0)
+
     x1 = x1+60
+
+    if podschet(karty_dilera)>=21:
+        timer.stop()
 
 def ostanovka():
     global khod
@@ -170,6 +175,7 @@ def podschet(spisok_kart):
 
     for karta in spisok_kart:
         sum += kart_value(karta)
+    return sum
 
 def kart_value(karta):
 
