@@ -1,5 +1,6 @@
 import random
 
+from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLineEdit
 
@@ -10,6 +11,7 @@ balansik = "Открытый баланс"
 stavochka = "Открытая ставочка"
 karty_dilera = []
 x1 = 420
+timer =None
 def vzyat(koloda):
     global x
     if khod=="Мой ход":
@@ -22,16 +24,10 @@ def vzyat(koloda):
         koloda.pop(0)
 
     x = x+60
-
-def ostanovka():
-    global khod
-    global karta4
-    global name_karta
-    pixmap=getPixmap(name_karta)
-    karta4.setPixmap(pixmap)
-    khod = "Чужой ход"
+def dop_karty():
     global x1
-
+    global khod
+    global koloda
     if khod =="Чужой ход":
         karta6 = QLabel()
         karta6.setFixedSize(50,90)
@@ -41,6 +37,26 @@ def ostanovka():
         window.layout().addWidget(karta6)
         koloda.pop(0)
     x1 = x1+60
+
+def ostanovka():
+    global khod
+    global karta4
+    global name_karta
+    global timer
+    pixmap=getPixmap(name_karta)
+    karta4.setPixmap(pixmap)
+    khod = "Чужой ход"
+
+
+
+
+
+    timer = QTimer()
+    timer.setInterval(5000)
+    timer.timeout.connect(lambda :dop_karty())
+    timer.start()
+
+
 
 
 def balans():
@@ -111,7 +127,6 @@ def getPixmap(karta):
 
     result=karta.replace(' ','_').replace('черви','chervi.png').replace('буби','bubi.png').replace('крести','kresti.png').replace ('трефы','trefy.png')
 
-
     return QPixmap(result)
 
 
@@ -122,8 +137,6 @@ def getPixmap(karta):
 # def vzyatie_karty(koloda):
 #     koloda[0]
     
-
-
 
 
 
