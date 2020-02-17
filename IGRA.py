@@ -12,6 +12,7 @@ stavochka = "Открытая ставочка"
 karty_dilera = []
 x1 = 420
 timer =None
+karty_igroka=[]
 def vzyat(koloda):
     global x
     if khod=="Мой ход":
@@ -21,7 +22,20 @@ def vzyat(koloda):
         pixmap= getPixmap(koloda[0])
         karta5.setPixmap(pixmap)
         window.layout().addWidget(karta5)
+        karty_igroka.append(koloda[0])
         koloda.pop(0)
+
+        if podschet(karty_igroka)>=21:
+
+            print('you lose')
+            # app= QApplication([])
+            #
+            # window1 = QMainWindow()
+            # window1.setFixedSize(500,500)
+            #
+            # window1.show()
+            # app.exec()
+
 
     x = x+60
 def dop_karty():
@@ -39,9 +53,23 @@ def dop_karty():
         koloda.pop(0)
 
     x1 = x1+60
-
-    if podschet(karty_dilera)>=21:
+    if podschet(karty_igroka)<podschet(karty_dilera) and podschet(karty_dilera)<=21:
+        print('Player1 lose this Game')
         timer.stop()
+    elif podschet(karty_dilera)>=21 and podschet(karty_igroka)<=21:
+        print('Player1 win this Game')
+        timer.stop()
+    elif podschet(karty_igroka)>=21 and podschet(karty_dilera)<=21:
+        print('Player1 lose this Game')
+        timer.stop()
+
+
+
+
+
+
+
+
 
 def ostanovka():
     global khod
@@ -92,6 +120,7 @@ def startovaya_razdacha(koloda,window):
     pixmap = getPixmap(koloda[0])
     karta1.setPixmap(pixmap)
     window.layout().addWidget(karta1)
+    karty_igroka.append(koloda[0])
     koloda.pop(0)
 
     karta2=QLabel()
@@ -100,6 +129,7 @@ def startovaya_razdacha(koloda,window):
     pixmap = getPixmap(koloda[0])
     karta2.setPixmap(pixmap)
     window.layout().addWidget(karta2)
+    karty_igroka.append(koloda[0])
     koloda.pop(0)
 
     karta3=QLabel()
@@ -130,7 +160,7 @@ def startovaya_razdacha(koloda,window):
 def getPixmap(karta):
 
 
-    result=karta.replace(' ','_').replace('черви','chervi.png').replace('буби','bubi.png').replace('крести','kresti.png').replace ('трефы','trefy.png')
+    result=karta.replace(' ','_').replace('черви','chervi.png').replace('буби','bubi.png').replace('крести','kresti.png').replace ('пики','piki.png')
 
     return QPixmap(result)
 
