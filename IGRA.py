@@ -15,6 +15,8 @@ timer =None
 karty_igroka=[]
 karty_igroka_na_stole=[]
 karty_dilera_na_stole=[]
+stavka_jigroka = None
+balans_igroka1=100
 def new_game():
     global x
     global x1
@@ -110,7 +112,7 @@ def ostanovka():
 
 
     timer = QTimer()
-    timer.setInterval(5000)
+    timer.setInterval(1500)
     timer.timeout.connect(lambda :dop_karty())
     timer.start()
 
@@ -123,8 +125,12 @@ def balans():
         balans_igroka.hide()
         balansik = "Закртый баланс"
     else:
+        balans_igroka.setText(str(balans_igroka1))
         balans_igroka.show()
         balansik = "Открытый баланс"
+
+
+
 
 
 
@@ -218,6 +224,8 @@ def read_file():
 
 def stavka():
     global stavochka
+    global stavka_jigroka
+    global balans_igroka1
     print("stavka")
     balans()
     if stavochka=="Открытая ставочка":
@@ -226,6 +234,9 @@ def stavka():
     else:
         stavka_igroka.show()
         stavochka = "Открытая ставочка"
+    stavka_jigroka=int(stavka_igroka.text())
+    balans_igroka1=balans_igroka1-stavka_jigroka
+
 
 
 def podschet(spisok_kart):
