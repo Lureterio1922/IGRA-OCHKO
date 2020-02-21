@@ -13,6 +13,29 @@ karty_dilera = []
 x1 = 420
 timer =None
 karty_igroka=[]
+karty_igroka_na_stole=[]
+karty_dilera_na_stole=[]
+def new_game():
+    global x
+    global x1
+    global khod
+    for kart in karty_dilera_na_stole:
+        kart.setParent(None)
+    for kart in karty_igroka_na_stole:
+        kart.setParent(None)
+    x=420
+    x1 = 420
+    data = read_file()
+    koloda = data.split("\n")  # строка из файла с картами разбивается на раздельный список
+    random.shuffle(koloda)  # перемешивание наименований карт из списка
+    print(koloda)
+    startovaya_razdacha(koloda,window)
+    print(karty_dilera)
+    khod="Мой ход"
+
+
+
+
 def vzyat(koloda):
     global x
     if khod=="Мой ход":
@@ -22,6 +45,7 @@ def vzyat(koloda):
         pixmap= getPixmap(koloda[0])
         karta5.setPixmap(pixmap)
         window.layout().addWidget(karta5)
+        karty_igroka_na_stole.append(karta5)
         karty_igroka.append(koloda[0])
         koloda.pop(0)
 
@@ -49,6 +73,7 @@ def dop_karty():
         pixmap= getPixmap(koloda[0])
         karta6.setPixmap(pixmap)
         window.layout().addWidget(karta6)
+        karty_dilera_na_stole.append(karta6)
         karty_dilera.append(koloda[0])
         koloda.pop(0)
 
@@ -121,6 +146,7 @@ def startovaya_razdacha(koloda,window):
     karta1.setPixmap(pixmap)
     window.layout().addWidget(karta1)
     karty_igroka.append(koloda[0])
+    karty_igroka_na_stole.append(karta1)
     koloda.pop(0)
 
     karta2=QLabel()
@@ -130,6 +156,7 @@ def startovaya_razdacha(koloda,window):
     karta2.setPixmap(pixmap)
     window.layout().addWidget(karta2)
     karty_igroka.append(koloda[0])
+    karty_igroka_na_stole.append(karta2)
     koloda.pop(0)
 
     karta3=QLabel()
@@ -139,6 +166,7 @@ def startovaya_razdacha(koloda,window):
     karta3.setPixmap(pixmap)
     window.layout().addWidget(karta3)
     karty_dilera.append(koloda[0])
+    karty_dilera_na_stole.append(karta3)
     koloda.pop(0)
 
     global karta4
@@ -151,6 +179,7 @@ def startovaya_razdacha(koloda,window):
     karta4.setPixmap(pixmap)
     window.layout().addWidget(karta4)
     karty_dilera.append(koloda[0])
+    karty_dilera_na_stole.append(karta4)
     koloda.pop(0)
 
 
@@ -337,6 +366,19 @@ if __name__ == "__main__":
     pixmap = QPixmap('1399413.jpg')
     otboinik_kart.setPixmap(pixmap)
     window.layout().addWidget(otboinik_kart)
+
+    new_game1 = QPushButton()
+    new_game1.setText('новая игра')
+    new_game1.setFixedSize(60,30)
+    new_game1.move(450,700)
+    new_game1.setStyleSheet("background-color:#48D100")
+    window.layout().addWidget(new_game1)
+    new_game1.clicked.connect(lambda :new_game())
+
+
+    
+
+
 
     window.show()
     app.exec()
