@@ -1,8 +1,9 @@
 import random
+import sys
 
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QMessageBox
 
 x = 420
 karta4=None
@@ -17,14 +18,44 @@ karty_igroka_na_stole=[]
 karty_dilera_na_stole=[]
 stavka_jigroka = None
 balans_igroka1=100
+def pobeda():
+    buttonReply = QMessageBox.question(window,'PyQt5 message', "Хотите ли Вы, сударь, начать игру заново? Вам удалось победить в нашем лохотроне", QMessageBox.Yes | QMessageBox.No )
+    print(int(buttonReply))
+    if buttonReply == QMessageBox.Yes:
+        print('Yes clicked.')
+        new_game()
+    if buttonReply == QMessageBox.No:
+        print('No clicked.')
+        sys.exit()
+def porazhenie():
+    buttonReply = QMessageBox.question(window,'PyQt5 message', "Хотите ли Вы, сударь, начать игру заново? К сожалению Вам не удалось выиграть в нашем лохотроне", QMessageBox.Yes | QMessageBox.No )
+    print(int(buttonReply))
+    if buttonReply == QMessageBox.Yes:
+        print('Yes clicked.')
+        new_game()
+    if buttonReply == QMessageBox.No:
+        print('No clicked.')
+        sys.exit()
+
 def new_game():
+    global karty_dilera_na_stole
     global x
     global x1
     global khod
+    global karty_igroka_na_stole
+    global karty_igroka
+    global nabor_kart
+    global ostanovka_nabora
     for kart in karty_dilera_na_stole:
         kart.setParent(None)
     for kart in karty_igroka_na_stole:
         kart.setParent(None)
+
+
+    karty_igroka_na_stole=[]
+    karty_igroka=[]
+    karty_dilera_na_stole=[]
+    karty_dilera=[]
     x=420
     x1 = 420
     data = read_file()
@@ -34,12 +65,17 @@ def new_game():
     startovaya_razdacha(koloda,window)
     print(karty_dilera)
     khod="Мой ход"
+    nabor_kart.setEnabled(True)
+    ostanovka_nabora.setEnabled(True)
+
 
 
 
 
 def vzyat(koloda):
     global x
+    global nabor_kart
+    global window
     if khod=="Мой ход":
         karta5 = QLabel()
         karta5.setFixedSize(50,90)
@@ -50,11 +86,26 @@ def vzyat(koloda):
         karty_igroka_na_stole.append(karta5)
         karty_igroka.append(koloda[0])
         koloda.pop(0)
+        x = x+60
 
-        if podschet(karty_igroka)>=21:
+
+    if podschet(karty_igroka)>=21:
 
             print('you lose')
-            # app= QApplication([])
+            nabor_kart.setEnabled(False)
+            # buttonReply = QMessageBox.question(window,'PyQt5 message', "Хотите ли Вы, сударь, начать игру заново?", QMessageBox.Yes | QMessageBox.No )
+            # print(int(buttonReply))
+            # if buttonReply == QMessageBox.Yes:
+            #     print('Yes clicked.')
+            #     new_game()
+            # if buttonReply == QMessageBox.No:
+            #     print('No clicked.')
+            #     sys.exit()
+            # if buttonReply == QMessageBox.Cancel:
+            #     print('Cancel')
+
+
+    # app= QApplication([])
             #
             # window1 = QMainWindow()
             # window1.setFixedSize(500,500)
@@ -63,7 +114,6 @@ def vzyat(koloda):
             # app.exec()
 
 
-    x = x+60
 def dop_karty():
     global x1
     global khod
@@ -83,12 +133,15 @@ def dop_karty():
     if podschet(karty_igroka)<podschet(karty_dilera) and podschet(karty_dilera)<=21:
         print('Player1 lose this Game')
         timer.stop()
+        porazhenie()
     elif podschet(karty_dilera)>=21 and podschet(karty_igroka)<=21:
         print('Player1 win this Game')
         timer.stop()
+        pobeda()
     elif podschet(karty_igroka)>=21 and podschet(karty_dilera)<=21:
         print('Player1 lose this Game')
         timer.stop()
+        porazhenie()
 
 
 
@@ -103,9 +156,12 @@ def ostanovka():
     global karta4
     global name_karta
     global timer
+    global ostanovka_nabora
     pixmap=getPixmap(name_karta)
     karta4.setPixmap(pixmap)
     khod = "Чужой ход"
+    nabor_kart.setEnabled(False)
+    ostanovka_nabora.setEnabled(False)
 
 
 
