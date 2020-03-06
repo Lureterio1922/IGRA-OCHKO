@@ -17,8 +17,9 @@ karty_igroka=[]
 karty_igroka_na_stole=[]
 karty_dilera_na_stole=[]
 stavka_jigroka = None
-balans_igroka1=100
+balans_igroka1=1000
 def pobeda():
+    global balans_igroka1
     buttonReply = QMessageBox.question(window,'PyQt5 message', "Хотите ли Вы, сударь, начать игру заново? Вам удалось победить в нашем лохотроне", QMessageBox.Yes | QMessageBox.No )
     print(int(buttonReply))
     if buttonReply == QMessageBox.Yes:
@@ -27,6 +28,9 @@ def pobeda():
     if buttonReply == QMessageBox.No:
         print('No clicked.')
         sys.exit()
+    stavka_jigroka=int(stavka_igroka.text())
+    balans_igroka1=balans_igroka1 +(stavka_jigroka*2)
+    balans_igroka.setText(str(balans_igroka1))
 def porazhenie():
     buttonReply = QMessageBox.question(window,'PyQt5 message', "Хотите ли Вы, сударь, начать игру заново? К сожалению Вам не удалось выиграть в нашем лохотроне", QMessageBox.Yes | QMessageBox.No )
     print(int(buttonReply))
@@ -67,8 +71,14 @@ def new_game():
     khod="Мой ход"
     nabor_kart.setEnabled(True)
     ostanovka_nabora.setEnabled(True)
-
-
+    balans()
+    global stavochka
+    if stavochka=="Открытая ставочка":
+        stavka_igroka.hide()
+        stavochka = "Закрытая ставочка"
+    else:
+        stavka_igroka.show()
+        stavochka = "Открытая ставочка"
 
 
 
@@ -79,7 +89,7 @@ def vzyat(koloda):
     if khod=="Мой ход":
         karta5 = QLabel()
         karta5.setFixedSize(50,90)
-        karta5.move(x,600)
+        karta5.move(x,570)
         pixmap= getPixmap(koloda[0])
         karta5.setPixmap(pixmap)
         window.layout().addWidget(karta5)
@@ -121,7 +131,7 @@ def dop_karty():
     if khod =="Чужой ход":
         karta6 = QLabel()
         karta6.setFixedSize(50,90)
-        karta6.move(x1,100)
+        karta6.move(x1,210)
         pixmap= getPixmap(koloda[0])
         karta6.setPixmap(pixmap)
         window.layout().addWidget(karta6)
@@ -141,7 +151,7 @@ def dop_karty():
     elif podschet(karty_igroka)>=21 and podschet(karty_dilera)<=21:
         print('Player1 lose this Game')
         timer.stop()
-        porazhenie()
+        sys.exit()
 
 
 
@@ -203,7 +213,7 @@ def startovaya_razdacha(koloda,window):
 
     karta1=QLabel()
     karta1.setFixedSize(50, 90)
-    karta1.move(300,600)
+    karta1.move(300,570)
     pixmap = getPixmap(koloda[0])
     karta1.setPixmap(pixmap)
     window.layout().addWidget(karta1)
@@ -213,7 +223,7 @@ def startovaya_razdacha(koloda,window):
 
     karta2=QLabel()
     karta2.setFixedSize(50, 90)
-    karta2.move(360,600)
+    karta2.move(360,570)
     pixmap = getPixmap(koloda[0])
     karta2.setPixmap(pixmap)
     window.layout().addWidget(karta2)
@@ -223,7 +233,7 @@ def startovaya_razdacha(koloda,window):
 
     karta3=QLabel()
     karta3.setFixedSize(50, 90)
-    karta3.move(300,100)
+    karta3.move(300,210)
     pixmap = getPixmap(koloda[0])
     karta3.setPixmap(pixmap)
     window.layout().addWidget(karta3)
@@ -236,7 +246,7 @@ def startovaya_razdacha(koloda,window):
     name_karta = koloda[0]
     karta4=QLabel()
     karta4.setFixedSize(50, 90)
-    karta4.move(360,100)
+    karta4.move(360,210)
     pixmap = QPixmap('1399413.jpg')
     karta4.setPixmap(pixmap)
     window.layout().addWidget(karta4)
@@ -292,6 +302,7 @@ def stavka():
         stavochka = "Открытая ставочка"
     stavka_jigroka=int(stavka_igroka.text())
     balans_igroka1=balans_igroka1-stavka_jigroka
+    balans_igroka.setText(str(balans_igroka1))
 
 
 
@@ -360,9 +371,10 @@ if __name__ == "__main__":
 
 
     stol = QLabel()
-    stol.setFixedSize(600, 600)
-    stol.move(100, 100)
-    stol.setStyleSheet("background-color:#48D1CC")
+    stol.setFixedSize(800, 800)
+    stol.move(25, 25)
+    pixmap=QPixmap('stol_dlya_igry.jpg')
+    stol.setPixmap(pixmap)
     window.layout().addWidget(stol)
 
     random.shuffle(koloda)  # перемешивание наименований карт из списка
@@ -371,15 +383,15 @@ if __name__ == "__main__":
     print(karty_dilera)
 
     balans_igroka=QLabel()
-    balans_igroka.setText("                     100$")
-    balans_igroka.move(300,300)
+    balans_igroka.setText("                     1000$")
+    balans_igroka.move(300,325)
     balans_igroka.setFixedSize(200,100)
     balans_igroka.setStyleSheet("background-color:#DCDCDC")
     window.layout().addWidget(balans_igroka)
 
 
     stavka_igroka = QLineEdit()
-    stavka_igroka.move(360,410)
+    stavka_igroka.move(360,450)
     stavka_igroka.setFixedSize(80,50)
     stavka_igroka.setStyleSheet("background-color:#FAE7B5")
     window.layout().addWidget(stavka_igroka)
@@ -406,14 +418,14 @@ if __name__ == "__main__":
 
     okoshko_dlya_stavok = QPushButton()
     okoshko_dlya_stavok.setText('Ставка')
-    okoshko_dlya_stavok.setFixedSize(50, 20)
+    okoshko_dlya_stavok.setFixedSize(50, 40)
     okoshko_dlya_stavok.move(320, 700)
     okoshko_dlya_stavok.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(okoshko_dlya_stavok)
 
     okoshko_balansa = QPushButton()
-    okoshko_balansa.setText("баланс")
-    okoshko_balansa.setFixedSize(50, 30)
+    okoshko_balansa.setText("Баланс")
+    okoshko_balansa.setFixedSize(50, 40)
     okoshko_balansa.move(380, 700)
     okoshko_balansa.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(okoshko_balansa)
@@ -422,21 +434,21 @@ if __name__ == "__main__":
 
     rubashka_kart = QLabel()
     rubashka_kart.setFixedSize(50, 90)
-    rubashka_kart.move(150, 300)
+    rubashka_kart.move(150, 350)
     pixmap = QPixmap('main_50020_original.jpg')
     rubashka_kart.setPixmap(pixmap)
     window.layout().addWidget(rubashka_kart)
 
     otboinik_kart = QLabel()
     otboinik_kart.setFixedSize(50, 90)
-    otboinik_kart.move(600, 300)
+    otboinik_kart.move(600, 350)
     pixmap = QPixmap('1399413.jpg')
     otboinik_kart.setPixmap(pixmap)
     window.layout().addWidget(otboinik_kart)
 
     new_game1 = QPushButton()
-    new_game1.setText('новая игра')
-    new_game1.setFixedSize(60,30)
+    new_game1.setText('Новая игра')
+    new_game1.setFixedSize(70,40)
     new_game1.move(450,700)
     new_game1.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(new_game1)
