@@ -1,8 +1,9 @@
 import random
 import sys
 
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, QUrl
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QMessageBox
 
 x = 420
@@ -362,9 +363,42 @@ def kart_value(karta):
 
 if __name__ == "__main__":
     app= QApplication([])
-
     window = QMainWindow()
     window.setFixedSize(800, 800)
+
+
+    playlist = QMediaPlaylist()
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/Intro.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/лали.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/музыка.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/каспий.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/даром.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/ненадо.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/стакан.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/белом.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/суд.mp3")
+    playlist.addMedia(QMediaContent(url))
+
+    player=QMediaPlayer()
+    player.setPlaylist(playlist)
+    player.playlist().setCurrentIndex(0)
+    player.play()
 
     data = read_file()
     koloda = data.split("\n")  # строка из файла с картами разбивается на раздельный список
