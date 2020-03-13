@@ -5,7 +5,7 @@ from PyQt5.QtCore import QTimer, QUrl
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QMessageBox
-
+music = "Выключенная музыка"
 x = 420
 karta4=None
 khod = "Мой ход"
@@ -19,6 +19,7 @@ karty_igroka_na_stole=[]
 karty_dilera_na_stole=[]
 stavka_jigroka = None
 balans_igroka1=1000
+player=None
 def pobeda():
     global balans_igroka1
     buttonReply = QMessageBox.question(window,'PyQt5 message', "Хотите ли Вы, сударь, начать игру заново? Вам удалось победить в нашем лохотроне", QMessageBox.Yes | QMessageBox.No )
@@ -198,6 +199,16 @@ def balans():
 
 
 
+def mousePressEvent():
+    global music
+    global player
+    if music == "Выключенная музыка":
+        player.play()
+
+        music="Включенная музыка"
+    else:
+        player.pause()
+        music="Выключенная музыка"
 
 
 
@@ -368,32 +379,51 @@ if __name__ == "__main__":
 
 
     playlist = QMediaPlaylist()
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/Intro.mp3")
-    playlist.addMedia(QMediaContent(url))
+    tracks=[
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/Intro.mp3")),
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/лали.mp3")),
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/музыка.mp3")),
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/каспий.mp3")),
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/даром.mp3")),
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/ненадо.mp3")),
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/стакан.mp3")),
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/белом.mp3")),
+        QMediaContent(QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/суд.mp3")),
 
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/лали.mp3")
-    playlist.addMedia(QMediaContent(url))
+    ]
 
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/музыка.mp3")
-    playlist.addMedia(QMediaContent(url))
+    random.shuffle(tracks)
 
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/каспий.mp3")
-    playlist.addMedia(QMediaContent(url))
+    for track in tracks:
+        playlist.addMedia(track)
 
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/даром.mp3")
-    playlist.addMedia(QMediaContent(url))
 
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/ненадо.mp3")
-    playlist.addMedia(QMediaContent(url))
-
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/стакан.mp3")
-    playlist.addMedia(QMediaContent(url))
-
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/белом.mp3")
-    playlist.addMedia(QMediaContent(url))
-
-    url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/суд.mp3")
-    playlist.addMedia(QMediaContent(url))
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/Intro.mp3")
+    # playlist.addMedia(QMediaContent(url))
+    #
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/лали.mp3")
+    # playlist.addMedia(QMediaContent(url))
+    #
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/музыка.mp3")
+    # playlist.addMedia(QMediaContent(url))
+    #
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/каспий.mp3")
+    # playlist.addMedia(QMediaContent(url))
+    #
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/даром.mp3")
+    # playlist.addMedia(QMediaContent(url))
+    #
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/ненадо.mp3")
+    # playlist.addMedia(QMediaContent(url))
+    #
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/стакан.mp3")
+    # playlist.addMedia(QMediaContent(url))
+    #
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/белом.mp3")
+    # playlist.addMedia(QMediaContent(url))
+    #
+    # url=QUrl.fromLocalFile("/Users/compus/IdeaProjects/IGRA OCHKO/суд.mp3")
+    # playlist.addMedia(QMediaContent(url))
 
     player=QMediaPlayer()
     player.setPlaylist(playlist)
@@ -482,11 +512,22 @@ if __name__ == "__main__":
 
     new_game1 = QPushButton()
     new_game1.setText('Новая игра')
-    new_game1.setFixedSize(70,40)
+    new_game1.setFixedSize(80,40)
     new_game1.move(450,700)
     new_game1.setStyleSheet("background-color:#48D100")
     window.layout().addWidget(new_game1)
     new_game1.clicked.connect(lambda :new_game())
+
+    music_play=QPushButton()
+    music_play.move(540,700)
+    music_play.setFixedSize(80,40)
+    music_play.setStyleSheet("background-color:#76A090")
+    window.layout().addWidget(music_play)
+    music_play.clicked.connect(lambda:mousePressEvent())
+
+
+
+
 
 
     
