@@ -1,10 +1,12 @@
 import random
 import sys
 
-from PyQt5.QtCore import QTimer, QUrl
+from PyQt5.QtCore import QTimer, QUrl, QSize
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QLineEdit, QMessageBox
+from qtpy import QtGui
+
 music = "Выключенная музыка"
 x = 420
 karta4=None
@@ -143,18 +145,32 @@ def dop_karty():
 
     x1 = x1+60
     if podschet(karty_igroka)<podschet(karty_dilera) and podschet(karty_dilera)<=21:
-        print('Player1 lose this Game')
+        print('У дилера больше сумма карт')
+        print(podschet(karty_dilera))
+        print(podschet(karty_igroka))
         timer.stop()
         porazhenie()
-    elif podschet(karty_dilera)>=21 and podschet(karty_igroka)<=21:
-        print('Player1 win this Game')
+    elif podschet(karty_dilera)>21 and podschet(karty_igroka)<=21:
+        print('Перебор суммы карт у дилера')
+        print(podschet(karty_igroka))
+        print(podschet(karty_dilera))
         timer.stop()
         pobeda()
-    elif podschet(karty_igroka)>=21 and podschet(karty_dilera)<=21:
-        print('Player1 lose this Game')
+    elif podschet(karty_igroka)>21 and podschet(karty_dilera)<=21:
+        print('Перебор суммы карт у игрока')
+        print(podschet(karty_igroka))
+        print(podschet(karty_dilera))
         timer.stop()
         sys.exit()
-
+    elif podschet(karty_dilera)<podschet(karty_igroka) and podschet(karty_igroka)<=21:
+        print('У игрока больше сумма карт')
+        print(podschet(karty_igroka))
+        print(podschet(karty_dilera))
+        timer.stop()
+        pobeda()
+    elif podschet(karty_dilera)>21 and podschet(karty_igroka)>21:
+        timer.stop()
+        sys.exit()
 
 
 
@@ -204,11 +220,18 @@ def mousePressEvent():
     global player
     if music == "Выключенная музыка":
         player.play()
+        music_play.setIcon(QtGui.QIcon('Unknown.jpeg'))
+        music_play.setStyleSheet('opacity:.3')
+        music_play.setIconSize(QSize(100, 100))
+        window.layout().addWidget(music_play)
 
         music="Включенная музыка"
     else:
         player.pause()
         music="Выключенная музыка"
+        music_play.setIcon(QtGui.QIcon('i.png'))
+        music_play.setIconSize(QSize(100, 100))
+        window.layout().addWidget(music_play)
 
 
 
@@ -436,7 +459,7 @@ if __name__ == "__main__":
 
     stol = QLabel()
     stol.setFixedSize(800, 800)
-    stol.move(25, 25)
+    stol.move(0, 0)
     pixmap=QPixmap('stol_dlya_igry.jpg')
     stol.setPixmap(pixmap)
     window.layout().addWidget(stol)
@@ -519,9 +542,11 @@ if __name__ == "__main__":
     new_game1.clicked.connect(lambda :new_game())
 
     music_play=QPushButton()
-    music_play.move(540,700)
-    music_play.setFixedSize(80,40)
-    music_play.setStyleSheet("background-color:#76A090")
+    music_play.move(700,0)
+    music_play.setFixedSize(100,100)
+    # music_play.setStyleSheet("background-color:#76A090")
+    music_play.setIcon(QtGui.QIcon('Unknown.jpeg'))
+    music_play.setIconSize(QSize(100, 100))
     window.layout().addWidget(music_play)
     music_play.clicked.connect(lambda:mousePressEvent())
 
